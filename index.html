@@ -9,23 +9,58 @@
   <link rel="stylesheet" href="css/css.css">
 
   <!--引入初始化 Parse 的 js 檔案-->
-  <script type="text/javascript" src="<!--引入初始化 Parse 的 js 檔案-->"></script>
+  <script type="text/javascript" src="js/key.js"></script>
   <script  type="text/javascript">
+  /*test
+  var TestObject = Parse.Object.extend("TestObject");
+  var testObject = new TestObject();
+  testObject.save({foo: "bar"}).then(function(object) {
+  alert("yay! it worked");
+  });*/
   
     $(document).ready(function(){
       /* 顯示登入者名稱，避免未登入者進入此頁面*/
           //提示 1 : 可用轉址的方式，讓未登入的使用者轉址到 logIn.html
           //提示 2 : 請在 <span id="name" > 中顯示使用者名稱，在 <span id="role">中顯示角色  
-      
+        var username = Parse.User.current().getUsername();
+        var role = Parse.User.current().get('role');
+        if(username != null){
+          $("#role").append(role);
+          $("#name").append(username);
+        }else{
+          window.location = 'logIn.html' ;
+        }
+/*    //note,query抓資料
+        var data = Parse.Object.extend("User");//extend("資料表名稱")
+        var query = new Parse.Query(data);     
+        query.equalTo("username", username);
+        query.find({
+          success: function(results) {
+            //alert("Successfully retrieved " + results.length + " scores.");
+            // Do something with the returned Parse.Object values
+            for (var i = 0; i < results.length; i++) { 
+              var object = results[i];
+             // alert(object.id + ' - ' + object.get('role'));
+              role = object.get('role');
+             // alert(username+","+role);
+              $("#role").append(role);
+              $("#name").append(username);
+            }
+          },
+          error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+*/     
     });
   
     $(document).on('click',"#logOut",function(){
       console.log("Logout clicked");
       /* 執行登出動作，並轉址到 logIn 頁面*/
         // 可參考 : https://parse.com/docs/js/guide#users-current-user
-
-      /* 結束 */
-    });
+        Parse.User.logOut();
+        window.location = 'logIn.html' ;
+      });
 
   </script>
 </head>

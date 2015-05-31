@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/css.css">
 
   <!--引入初始化 Parse 的 js 檔案-->
-  <script type="text/javascript" src="<!--引入初始化 Parse 的 js 檔案-->"></script>
+  <script type="text/javascript" src="js/key.js"></script>
   <script  type="text/javascript">
     $(document).on('submit','#logInForm',function(e){
       console.log('logIn submit');
@@ -17,9 +17,35 @@
         // 提示1 : 記得使用 preventDefault 方程 避免表單轉址
         // 提示2 : 請在使用者登入成功後，自動幫助使用者簽到，
         // 提示3 : 簽到成功後，要將畫面切換到 index 頁面
+        e.preventDefault();//所以話說 preventDefault詳細的機制是？/_\
+        console.log ("login") ;
+        var username = $('#username').val() ;
+        var password = $('#password').val() ;
+        // 用 Parse.User.current() 判定使用者是否是登入的狀態，這裏還沒登入，會是 null
+        console.log("登入之前的 Parse.User.current()  : ",Parse.User.current() ) ;//delete
+        Parse.User.logIn( username , password , {
+          success: function(user) {
+            // 到 console 看看 Parse.User.current()  的東西
+            console.log("登入之後的 Parse.User.current()  : ",Parse.User.current() );//代表使用者現在是不是登入的狀態//delete       
+            alert('登入成功') ;
+            //幫使用者簽到啊QAQ
+            var AttendantList = Parse.Object.extend("AttendantList"); //新增class的意思 ?
+            var attend = new AttendantList();
+            var email = Parse.User.current().get('email');
+            attend.save("studentName",$('#username').val());//只有預設的原生物件可以用.set，要不然要開object要用.save
+            attend.save("studentEmail",email);
+            alert(email+"attend!");
 
-      /* 結束*/
-    });//endof logInBtn onSubmit
+            window.location = 'index.html' ;
+          },
+          error: function(user, error) {
+            console.log(error) ;
+            alert(error.message);
+          }
+        });//endof login
+
+          /* 結束*/
+        });//endof logInBtn onSubmit
   </script>
 </head>
 

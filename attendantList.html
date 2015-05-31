@@ -9,19 +9,44 @@
   <link rel="stylesheet" href="css/css.css">
 
   <!--引入初始化 Parse 的 js 檔案-->
-  <script type="text/javascript" src="<!--引入初始化 Parse 的 js 檔案-->"></script>
+  <script type="text/javascript" src="js/key.js"></script>
   <script  type="text/javascript">
     $(document).ready(function(){
       console.log('document ready');
+      var username = Parse.User.current().getUsername();
+      var role = Parse.User.current().get('role');
       /* 要判斷使用者角色，避免不應該看到的人進到此頁面 */
         // 提示 1 : 將非老師的角色轉址到 index 頁面
         // 提示 2 : 將未登入的使用者轉指導 logIn 頁面
-
+      if(role!="teacher"){
+        if(role=="student"){
+          window.location = 'index.html' ;
+        }else{
+          window.location = 'logIn.html' ;
+        }
+      }
       /* 請閱讀完 html 後在這裡填入送出表單後需要執行的程式碼 */
         // 提示 1 : 挑選符合條件的使用者
         //         可參考https://parse.com/docs/js/guide#queries-query-constraints
         // 提示 2 : 可使用 jqeury 中的 append 方法將資料顯示在<table id="table">中
-
+      else if(role=="teacher"){
+        /*query*/
+        var data = Parse.Object.extend("AttendantList");//extend("資料表名稱")
+        var query = new Parse.Query(data);
+        query.find({
+          success: function(results) {
+            for (var i = 0; i < results.length; i++) { 
+              var object = results[i];
+              studentName = object.get('studentName');
+              $("#table").append("<tr><td>"+studentName+"</td></tr>");
+            }
+          },
+          error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+        /*end query*/
+      }
       /* 結束*/
     }); // end of document ready
   </script>

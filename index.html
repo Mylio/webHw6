@@ -22,13 +22,15 @@
       /* 顯示登入者名稱，避免未登入者進入此頁面*/
           //提示 1 : 可用轉址的方式，讓未登入的使用者轉址到 logIn.html
           //提示 2 : 請在 <span id="name" > 中顯示使用者名稱，在 <span id="role">中顯示角色  
-        var username = Parse.User.current().getUsername();
-        var role = Parse.User.current().get('role');
-        if(username != null){
+        console.log(Parse.User.current());     
+        if(Parse.User.current() != null){
+          var username = Parse.User.current().getUsername();
+          var role = Parse.User.current().get('role');
           $("#role").append(role);
           $("#name").append(username);
         }else{
           window.location = 'logIn.html' ;
+          alert("請先登入");
         }
 /*    //note,query抓資料
         var data = Parse.Object.extend("User");//extend("資料表名稱")

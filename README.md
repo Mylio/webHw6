@@ -13,14 +13,14 @@
 順序：
 先寫js/key.js
 寫signUp
-logIn(使用者簽到先跳過)
+logIn(使用者簽到要先創造一個object)
 index
 最後寫attendantList
 
 #Questions
-- var AttendantList = Parse.Object.extend("AttendantList"); //新增class or object的意思 ? Parse.Object.extend 是什麼意思？會在parse開一個class(在parse裡面開一個class就是資料表的意思)？
-- e.preventDefault是？？
-- Parse.User.logIn()//為什麼user logIn 有辦法判斷user資料裡面有沒有match到？這是parse寫好的？
-- 只有預設的原生物件可以用.set?自己開的要用save ?
+- var AttendantList = Parse.Object.extend("AttendantList"); //新增資料表
+- e.preventDefault是避免點選連結時轉址，例如點下href = "xxx" ，應會轉址，寫上preventDefault按了也不會轉址。
+- Parse.User.logIn()//為什麼user logIn 有辦法判斷user資料裡面有沒有match到？parse寫好的
+- 無論是不是預設的原生物件都可以用.set，Subsequent updates to a user can be done by calling save.
 
 

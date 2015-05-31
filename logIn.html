@@ -29,12 +29,12 @@
             console.log("登入之後的 Parse.User.current()  : ",Parse.User.current() );//代表使用者現在是不是登入的狀態//delete       
             alert('登入成功') ;
             //幫使用者簽到啊QAQ
-            var AttendantList = Parse.Object.extend("AttendantList"); //新增class的意思 ?
+            var AttendantList = Parse.Object.extend("AttendantList"); //新增表單的的意思
             var attend = new AttendantList();
             var email = Parse.User.current().get('email');
-            attend.save("studentName",$('#username').val());//只有預設的原生物件可以用.set，要不然要開object要用.save
+            attend.save("studentName",$('#username').val());//不論是不是原生物件都可以用.set
             attend.save("studentEmail",email);
-            alert(email+"attend!");
+            //alert(email+"attend!");
 
             window.location = 'index.html' ;
           },
